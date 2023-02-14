@@ -2,4 +2,6 @@
 .pio
 .vscode
 lib
+logs
 NOTES.txt
+platformio-device-monitor-230214-175233.log
