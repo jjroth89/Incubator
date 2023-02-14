@@ -4,4 +4,4 @@
 lib
 logs
 NOTES.txt
-platformio-device-monitor-230214-175233.log
+platformio-device-monitor-*.log
