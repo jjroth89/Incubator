@@ -1,15 +1,15 @@
 /**
- * DIY Sous-Vide Temperature Control using Arduino
+ * DIY Incubator using Arduino
  * 
  * Description:
- * This code uses a Keypad, a waterproof DS18B20 sensor, and relays
- * to control the temperature of a DIY Sous-Vide cooking setup.
+ * This waterproof DS18B20 sensors and relays to control the temperature
+ * of an incubator.
  * 
  * Author: jjroth89
- * Date: January 2023
+ * Date: February 2023
  * 
  * @author jjroth89
- * @version 0.3.2
+ * @version 0.1.2
  */
 
 #include <OneWire.h>
@@ -25,12 +25,16 @@
 #define dbl(x) Serial.println(x)
 #endif
 
-// Define OneWire bus, heat source and water pump pins
 #define ONE_WIRE_BUS A0
-#define HEAT_RELAY_PIN A1
+#define RELAY_HEAT_PIN A1
+#define THERMOMETER_FLOOR 0
+#define THERMOMETER_ROOM 1
 
 // Set incubator target temperature
-const int targetTemp = 34;
+const int tempTargetAvg = 34;
+
+// Declare average temperature variable
+float tempAvg;
 
 // Setup a OneWire instance to communicate with any OneWire devices
 OneWire oneWire(ONE_WIRE_BUS);
@@ -56,7 +60,7 @@ void setup() {
 
 
   // Configure the relay pins as outputs
-  pinMode(HEAT_RELAY_PIN, OUTPUT);
+  pinMode(RELAY_HEAT_PIN, OUTPUT);
   dbl("RELAY PINS INITIALIZED");
 
   dbl("BOOT COMPLETE");
@@ -64,23 +68,47 @@ void setup() {
 }
 
 void loop() {
-sensors.requestTemperatures();
-//db("Current temperature: ");
-//db(sensors.getTempCByIndex(0));
-//dbl("ºC");
-//db("Target temperature: ");
-//db(targetTemp);
-//db("ºC - ");
-//if (sensors.getTempCByIndex(0) < targetTemp) {
-//  dbl("Heating ON");
-//  dbl();
-//  digitalWrite(HEAT_RELAY_PIN, HIGH);
-//} else {
-//  dbl("Heating OFF");
-//  dbl();
-//  digitalWrite(HEAT_RELAY_PIN, LOW);
+  sensors.requestTemperatures();
+  float tempFloor = sensors.getTempCByIndex(THERMOMETER_FLOOR);
+  float tempRoom = sensors.getTempCByIndex(THERMOMETER_ROOM);
 
-dbl(sensors.getTempCByIndex(0));
+  // If the thermometer is not properly installed, its reading will return -127 and mess with the average temperature
+  // Error handling for such scenarios
+  if (tempFloor < -100) {
+    tempAvg = tempRoom;
+    db("ERROR: BAD FLOOR THERMOMETER!");
+  } else if (tempRoom < -100) {
+    tempAvg = tempFloor;
+    db("ERROR: BAD ROOM THERMOMETER!");
+  } else {
+    tempAvg = (tempFloor + tempRoom) / 2;
+  }
 
-delay(5000);
+  db("FLOOR temperature: ");
+  db(tempFloor);
+  dbl("ºC");
+  db("ROOM temperature: ");
+  db(tempRoom);
+  dbl("ºC");
+  db("AVERAGE temperature: ");
+  db(tempAvg);
+  dbl("ºC");
+  db("Target temperature: ");
+  db(tempTargetAvg);
+  db("ºC - ");
+  if (tempAvg < tempTargetAvg) {
+    dbl("Heating ON");
+    dbl();
+    digitalWrite(RELAY_HEAT_PIN, HIGH);
+  } else {
+    dbl("Heating OFF");
+    dbl();
+    digitalWrite(RELAY_HEAT_PIN, LOW);
+  }
 }
+
+/*
+TODO - Set alarms
+* Operate with two sensors
+TODO - 
+ */
