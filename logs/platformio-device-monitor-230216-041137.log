@@ -1,0 +1,74 @@
+
+AVERAGE temperature: 31.81ºC
+Target temperature: 34ºC - Heating ON
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SERIAL PORT INITIALIZED
+TEMPERATURE SENSORS INITIALIZED
+RELAY PINS INITIALIZED
+BOOT COMPLETE
+
+ERROR: BAD ROOM THERMOMETER!FLOOR temperature: 31.81ºC
+ROOM temperature: -127.00ºC
+AVERAGE temperature: 31.81ºC
+Target temperature: 34ºC - Heating ON
+

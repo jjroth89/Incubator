@@ -27,8 +27,8 @@
 
 #define ONE_WIRE_BUS A0
 #define RELAY_HEAT_PIN A1
-#define THERMOMETER_FLOOR 0
-#define THERMOMETER_ROOM 1
+#define THERMOMETER_FLOOR 1
+#define THERMOMETER_ROOM 0
 
 // Set incubator target temperature
 const int tempTargetAvg = 34;
@@ -76,10 +76,10 @@ void loop() {
   // Error handling for such scenarios
   if (tempFloor < -100) {
     tempAvg = tempRoom;
-    db("ERROR: BAD FLOOR THERMOMETER!");
+    dbl("ERROR: CHECK FLOOR THERMOMETER!");
   } else if (tempRoom < -100) {
     tempAvg = tempFloor;
-    db("ERROR: BAD ROOM THERMOMETER!");
+    dbl("ERROR: CHECK ROOM THERMOMETER!");
   } else {
     tempAvg = (tempFloor + tempRoom) / 2;
   }
@@ -93,7 +93,7 @@ void loop() {
   db("AVERAGE temperature: ");
   db(tempAvg);
   dbl("ºC");
-  db("Target temperature: ");
+  db("TARGET temperature: ");
   db(tempTargetAvg);
   db("ºC - ");
   if (tempAvg < tempTargetAvg) {
@@ -105,10 +105,12 @@ void loop() {
     dbl();
     digitalWrite(RELAY_HEAT_PIN, LOW);
   }
+
+delay(60000);
+
 }
 
 /*
-TODO - Set alarms
-* Operate with two sensors
+TODO - Add OLED display
 TODO - 
  */
