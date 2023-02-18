@@ -112,5 +112,5 @@ delay(60000);
 
 /*
 TODO - Add OLED display
-TODO - 
+TODO - Add humidity/temperature sensor
  */
