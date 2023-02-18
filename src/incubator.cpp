@@ -27,8 +27,6 @@
 
 #define ONE_WIRE_BUS A0
 #define RELAY_HEAT_PIN A1
-#define THERMOMETER_FLOOR 1
-#define THERMOMETER_ROOM 0
 
 // Set incubator target temperature
 const int tempTargetAvg = 34;
@@ -69,8 +67,8 @@ void setup() {
 
 void loop() {
   sensors.requestTemperatures();
-  float tempFloor = sensors.getTempCByIndex(THERMOMETER_FLOOR);
-  float tempRoom = sensors.getTempCByIndex(THERMOMETER_ROOM);
+  float tempFloor = sensors.getTempCByIndex(1);
+  float tempRoom = sensors.getTempCByIndex(0);
 
   // If the thermometer is not properly installed, its reading will return -127 and mess with the average temperature
   // Error handling for such scenarios
