@@ -1,6 +1,8 @@
 # DIY Incubator using Arduino
  
-This waterproof DS18B20 sensors and relays to control the temperature of an incubator.
+This project uses waterproof DS18B20 sensors and relays to control the temperature of an incubator.
+
+It has since been discontinued due to the kittens this was designed for having passed. 
 
 Author: jjroth89
 Date: February 2023
